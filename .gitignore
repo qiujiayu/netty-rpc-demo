@@ -1,0 +1,8 @@
+/target
+/bin
+.settings
+.myeclipse
+.classpath
+.project
+.idea
+*.iml
