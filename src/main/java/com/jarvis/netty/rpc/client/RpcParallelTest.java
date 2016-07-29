@@ -41,10 +41,11 @@ public class RpcParallelTest {
 
     public static void main(String[] args) throws Exception {
         // 并行度10000
-        int parallel=10000;
+        int parallel=100;
 
-        String serverAddress="127.0.0.1:18887";
+        String serverAddress="127.0.0.1:8080";
         RpcSerializeType protocol=RpcSerializeType.KRYO;
+        System.out.print(serverAddress+"-->"+protocol);
         rpcClient=new RpcClient(serverAddress, protocol);
         for(int i=0; i < 10; i++) {
             parallelTask(parallel, serverAddress, protocol);
