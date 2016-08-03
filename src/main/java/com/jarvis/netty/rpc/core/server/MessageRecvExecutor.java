@@ -75,9 +75,8 @@ public class MessageRecvExecutor {
 
         try {
             ServerBootstrap bootstrap=new ServerBootstrap();
-            bootstrap.group(boss, worker).channel(NioServerSocketChannel.class)
-                .childHandler(new MessageRecvChannelInitializer(handlerMap, serializeType)).option(ChannelOption.SO_BACKLOG, 128)
-                .childOption(ChannelOption.SO_KEEPALIVE, true);
+            bootstrap.group(boss, worker).channel(NioServerSocketChannel.class).childHandler(new MessageRecvChannelInitializer(handlerMap, serializeType))
+                .option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
 
             ChannelFuture future=bootstrap.bind(port).sync();
             System.out.printf("Netty RPC Server start success!\nport:%d\nprotocol:%s\n\n", port, serializeType);
@@ -88,8 +87,7 @@ public class MessageRecvExecutor {
         }
     }
 
-    public static void handleMessageRecvTask(final Callable<MessageResponse> task, final ChannelHandlerContext ctx,
-        final MessageRequest request) {
+    public static void handleMessageRecvTask(final Callable<MessageResponse> task, final ChannelHandlerContext ctx, final MessageRequest request) {
         if(threadPoolExecutor == null) {
             synchronized(MessageRecvExecutor.class) {
                 if(threadPoolExecutor == null) {

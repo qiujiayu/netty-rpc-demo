@@ -35,14 +35,12 @@ public class MessageSendChannelInitializer extends ChannelInitializer<SocketChan
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline=socketChannel.pipeline();
-        pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, MessageCodecUtil.MESSAGE_LENGTH, 0,
-            MessageCodecUtil.MESSAGE_LENGTH));
+        pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, MessageCodecUtil.MESSAGE_LENGTH, 0, MessageCodecUtil.MESSAGE_LENGTH));
         pipeline.addLast(new LengthFieldPrepender(MessageCodecUtil.MESSAGE_LENGTH));
         switch(serializeType) {
             case JDK: {
                 pipeline.addLast(new ObjectEncoder());
-                pipeline.addLast(new ObjectDecoder(Integer.MAX_VALUE,
-                    ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())));
+                pipeline.addLast(new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())));
                 break;
             }
             case KRYO: {

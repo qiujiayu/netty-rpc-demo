@@ -21,16 +21,26 @@ public class MessageSendProxy extends AbstractInvocationHandler {
 
     @Override
     public Object handleInvocation(Object proxy, Method method, Object[] args) throws Throwable {
-        MessageRequest request=new MessageRequest();
-        request.setMessageId(UUID.randomUUID().toString());
-        request.setClassName(method.getDeclaringClass().getName());
-        request.setMethodName(method.getName());
-        request.setTypeParameters(method.getParameterTypes());
-        request.setParameters(args);
+        String className=method.getDeclaringClass().getName();
+        String methodName=method.getName();
+        return request(className, methodName, rpcClient, args);
+    }
 
-        MessageSendHandler handler=rpcClient.getMessageSendHandler();
-        MessageCallBack callBack=handler.sendRequest(request);
-        return callBack.get();
+    public static Object request(String className, String methodName, RpcClient rpcClient, Object... args) {
+        try {
+            MessageRequest request=new MessageRequest();
+            request.setMessageId(UUID.randomUUID().toString());
+            request.setClassName(className);
+            request.setMethodName(methodName);
+            // request.setTypeParameters(method.getParameterTypes());
+            request.setParameters(args);
+
+            MessageSendHandler handler=rpcClient.getMessageSendHandler();
+            MessageCallBack callBack=handler.sendRequest(request);
+            return callBack.get();
+        } catch(Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

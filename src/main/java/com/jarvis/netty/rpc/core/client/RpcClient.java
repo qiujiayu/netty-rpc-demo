@@ -37,8 +37,7 @@ public class RpcClient {
 
     private final RpcSerializeType serializeType;
 
-    private static ListeningExecutorService threadPoolExecutor=
-        MoreExecutors.listeningDecorator((ThreadPoolExecutor)RpcThreadPool.getExecutor(16, -1));
+    private static ListeningExecutorService threadPoolExecutor=MoreExecutors.listeningDecorator((ThreadPoolExecutor)RpcThreadPool.getExecutor(16, -1));
 
     private volatile MessageSendHandler messageSendHandler=null;
 

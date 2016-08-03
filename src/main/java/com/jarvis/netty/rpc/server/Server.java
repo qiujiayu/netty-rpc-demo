@@ -12,7 +12,7 @@ public class Server {
         System.out.println("server starting ... ...");
         MessageRecvExecutor executor=new MessageRecvExecutor(port, RpcSerializeType.KRYO);
         executor.regeditService(new CalculateImpl(), Calculate.class);
-        
+
         executor.startServer();
     }
 
